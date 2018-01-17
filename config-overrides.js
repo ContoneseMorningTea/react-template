@@ -8,7 +8,9 @@ module.exports = function override(config, env) {
   config.resolve = {
     extensions: ['.js', '.jsx'],
     'alias': {
-      'model': path.join(__dirname, './src/model')
+      'view': path.join(__dirname, './src/view'),
+      'model': path.join(__dirname, './src/model'),
+      'router': path.join(__dirname, './src/router')
     }
   };
   return config;

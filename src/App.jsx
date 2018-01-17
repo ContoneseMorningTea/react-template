@@ -1,14 +1,13 @@
-// import 'public/stylus/reset.styl';
-// import './App.styl'
+
+import { Route } from 'react-router-dom';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import List from 'view/List';
 import Tea from 'model/tea';
-// import RouterMap from './router'
 
 @observer
 class App extends Component {
-  @observable tea;
+  tea = null;
 
   constructor(props) {
     super(props);
@@ -33,8 +32,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">你的经典早茶列表</h1>
         </header>
+        <Route path="/list" component={List} />
         <p className="App-intro">
           看起来这里的早茶应该是{this.tea.name}ID为{this.tea.id}
         </p>

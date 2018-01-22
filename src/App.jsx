@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import List from 'view/List';
+import Repo from 'model/repo';
 import Tea from 'model/tea';
 
 @observer
@@ -12,6 +13,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.tea = new Tea();
+    Repo.find([]).then(repos => {
+      console.log(repos)
+    });
   }
 
   click() {
@@ -30,10 +34,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">你的经典早茶列表</h1>
-        </header>
+      <div>
         <Route path="/list" component={List} />
         <p className="App-intro">
           看起来这里的早茶应该是{this.tea.name}ID为{this.tea.id}

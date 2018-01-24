@@ -1,51 +1,37 @@
-
 import { Route } from 'react-router-dom';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import List from 'view/List';
-import Repo from 'model/repo';
-import Tea from 'model/tea';
+import User from 'model/user';
+import Repo from '@/Repo';
 
 @observer
 class App extends Component {
-  tea = null;
+  user = null;
 
   constructor(props) {
     super(props);
-    this.tea = new Tea();
-    Repo.find([]).then(repos => {
-      console.log(repos)
+    new User('huangstomach').then(user => {
+      this.user = user;
+      console.log(this.user)
     });
-  }
 
-  click() {
-    this.tea.id = 2;
-    this.tea.name = '虾饺';
-  }
-
-  submit() {
-    this.tea.save()
-    .then(r => {
-      if (r) {
-        alert(`保住了我的早茶:${r.name}`);
-      }
-    });
   }
 
   render() {
     return (
-      <div>
-        <Route path="/list" component={List} />
-        <p className="App-intro">
-          看起来这里的早茶应该是{this.tea.name}ID为{this.tea.id}
-        </p>
-        <button onClick={() => this.click()}>
-          一键切换虾饺
-        </button>
-        <button onClick={() => this.submit()}>
-          保存哥的虾饺！
-        </button>
-      </div>
+      <section className="hero is-success is-fullheight">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              Gini React Templdate
+            </h1>
+            <h2 className="subtitle">
+              基理react模板
+            </h2>
+          </div>
+          <Route path="/repo" component={Repo} />
+        </div>
+      </section>
     );
   }
 };

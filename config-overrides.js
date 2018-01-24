@@ -11,6 +11,7 @@ module.exports = {
     config.resolve = {
       extensions: ['.js', '.jsx'],
       'alias': {
+        '@': path.join(__dirname, './src/components'),
         'lib': path.join(__dirname, './lib'),
         'view': path.join(__dirname, './src/view'),
         'model': path.join(__dirname, './src/model'),

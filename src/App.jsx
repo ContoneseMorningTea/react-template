@@ -1,22 +1,13 @@
 import { Route } from 'react-router-dom';
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import User from 'model/user';
+
+import User from '@/User';
 import Repo from '@/Repo';
+import Links from '@/Links';
 
 @observer
 class App extends Component {
-  user = null;
-
-  constructor(props) {
-    super(props);
-    new User('huangstomach').then(user => {
-      this.user = user;
-      console.log(this.user)
-    });
-
-  }
-
   render() {
     return (
       <section className="hero is-success is-fullheight">
@@ -28,8 +19,11 @@ class App extends Component {
             <h2 className="subtitle">
               基理react模板
             </h2>
+            <Links/>
+            <Route exact path="/" component={User}/>
+            <Route path="/user" component={User}/>
+            <Route path="/repos" component={Repo}/>
           </div>
-          <Route path="/repo" component={Repo} />
         </div>
       </section>
     );

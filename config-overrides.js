@@ -15,9 +15,11 @@ module.exports = {
         'lib': path.join(__dirname, './lib'),
         'view': path.join(__dirname, './src/view'),
         'model': path.join(__dirname, './src/model'),
-        'router': path.join(__dirname, './src/router')
+        'store': path.join(__dirname, './src/store')
       }
     };
+
+    // 支持es6的class TODO: 关注babel升级 是否有一天就不用这么做了？
     const oneOf = config.module.rules.find(rule => rule.oneOf).oneOf
     oneOf.forEach((item) => {
       if (String(item.test) == String(/\.(js|jsx|mjs)$/)) {

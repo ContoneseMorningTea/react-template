@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import { observable } from 'mobx';
+import React from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
-import mRepo from 'model/repo';
+import Repos from 'store/repo';
+
+import Base from '@/Base';
 
 @observer
-class Repo extends Component {
-  @observable repos = [];
+class Repo extends Base {
+  @computed get repos() {
+    return Repos.repos;
+  }
 
   constructor(props) {
     super(props);
-    mRepo.find([]).then(repos => {
-      this.repos = repos;
-    });
+    Repos.myRepos();
   }
 
   onClick(id) {
@@ -25,7 +27,19 @@ class Repo extends Component {
     return (
       <ul>
         {this.repos.map(repo => 
-        <li key={repo.id} onClick={() => this.onClick(repo.id)}>{repo.name}</li>
+        <li key={repo.id} className="level">
+          <div className="level-left">
+            <div className="control level-item">
+              <div className="tags has-addons">
+                <span className="tag is-dark">start</span>
+                <span className="tag is-info">{repo.stars}</span>
+              </div>
+            </div>
+            <span onClick={() => this.onClick(repo.id)} className="level-item"
+              style={{cursor: 'pointer', marginRight: '5px'}}>{repo.name}</span>
+            <a href={repo.url} className="level-item">{repo.url}</a>
+          </div>
+        </li>
         )}
       </ul>
     );

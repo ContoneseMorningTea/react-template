@@ -1,4 +1,4 @@
-const { injectBabelPlugin } = require('react-app-rewired')
+const { injectBabelPlugin, getLoader } = require('react-app-rewired')
 const rewireMobX = require('react-app-rewire-mobx');
 const path = require('path');
 
@@ -35,11 +35,11 @@ module.exports = {
     return (proxy, allowedHost) => {
       const config = configFunction(proxy, allowedHost);
       // 这个配置是webpack提供的另一种功能 适合vagrant共享目录下开发
-      // aggregateTimeout 为 delay 意为300毫秒之后没有修改才会进行刷新
-      // poll 为每1000毫秒检查一次 的确很消耗性能 非vagrant共享目录下开发请关闭
+      // aggregateTimeout 为 delay 意为1000毫秒之后没有修改才会进行刷新
+      // poll 为每5000毫秒检查一次 的确很消耗性能 非vagrant共享目录下开发请关闭
       // 时间可以酌情添加
-      config.watchOptions.aggregateTimeout = 300;
-      config.watchOptions.poll = 1000;
+      config.watchOptions.aggregateTimeout = 1000;
+      config.watchOptions.poll = 5000;
       return config;
     };
   }

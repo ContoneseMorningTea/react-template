@@ -7,7 +7,6 @@ class Repo {
   
   @action
   myRepos = () => {
-    console.log(this.repos)
     if (this.repos.length > 0) return Promise.resolve(this.repos);
 
     Repos

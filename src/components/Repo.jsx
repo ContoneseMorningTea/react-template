@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { Component }  from 'react';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import Repos from 'store/repo';
 
-import Base from '@/Base';
-
 @observer
-class Repo extends Base {
+class Repo extends Component {
   @computed get repos() {
     return Repos.repos;
   }

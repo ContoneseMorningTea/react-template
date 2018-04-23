@@ -1,4 +1,4 @@
-import '../node_modules/bulma/css/bulma.css'
+import '../node_modules/bulma/css/bulma.css?raw'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';

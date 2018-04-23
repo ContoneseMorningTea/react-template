@@ -6,7 +6,7 @@ const path = require('path');
 module.exports = {
   webpack (config, env) {
     config = rewireMobX(config, env);
-    config = injectBabelPlugin('transform-decorators-legacy', config)
+    config = injectBabelPlugin('transform-decorators-legacy', config);
 
     config.resolve = {
       extensions: ['.js', '.jsx'],
@@ -19,18 +19,31 @@ module.exports = {
       }
     };
 
-    // 支持es6的class TODO: 关注babel升级 是否有一天就不用这么做了？
-    const oneOf = config.module.rules.find(rule => rule.oneOf).oneOf
+    // 增加css module的支持
+    let loader = getLoader(config.module.rules, rule => rule.loader && rule.loader.indexOf(`css-loader`) != -1);
+    loader.options = {
+      modules: true,
+      importLoaders: 1,
+      localIdentName: '[local]___[hash:base64:5]'
+    };
+    
+    const oneOf = config.module.rules.find(rule => rule.oneOf).oneOf;
     oneOf.forEach((item) => {
       if (String(item.test) == String(/\.(js|jsx|mjs)$/)) {
+        // 支持es6的class TODO: 关注babel升级 是否有一天就不用这么做了？
         item.options.presets = ['es2015-node5', 'stage-2', 'react'];
       }
-    })
+    });
+    
+    oneOf.unshift({
+      test: /\.css$/,
+      resourceQuery: /^\?raw$/,
+      use: [require.resolve("style-loader"), require.resolve("css-loader")]
+    });
+    
     return config;
   },
-  jest (config) {
-    return config;
-  },
+  jest: config => config,
   devServer (configFunction) {
     return (proxy, allowedHost) => {
       const config = configFunction(proxy, allowedHost);

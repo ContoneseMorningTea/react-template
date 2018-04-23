@@ -12,9 +12,6 @@ class User extends Component {
   constructor(props) {
     super(props);
     this.user = new Users('huangstomach');
-    setTimeout(() => {
-      this.user.save()
-    }, 5000)
   }
 
   info () {

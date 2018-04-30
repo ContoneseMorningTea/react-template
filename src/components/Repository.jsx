@@ -1,5 +1,6 @@
 import React, { Component }  from 'react';
 import { observer } from 'mobx-react';
+import { withRouter } from "react-router-dom";
 
 @observer
 class Repository extends Component {
@@ -33,4 +34,4 @@ class Repository extends Component {
   }
 };
 
-export default Repository;
+export default withRouter(Repository);

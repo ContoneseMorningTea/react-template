@@ -1,11 +1,12 @@
 import { Route } from 'react-router-dom';
 import React, { Component } from 'react';
+import Loadable from 'react-loadable';
 import { observer } from 'mobx-react';
 
-import User from 'view/User';
-import Repo from 'view/Repo';
-import Repos from 'view/Repos';
 import Links from '@/Links';
+const User = Loadable({loader: () => import(/* webpackChunkName: "user" */  'view/User'), loading: () => null});
+const Repo = Loadable({loader: () => import(/* webpackChunkName: "repo" */  'view/Repo'), loading: () => null});
+const Repos = Loadable({loader: () => import(/* webpackChunkName: "repos" */  'view/Repos'), loading: () => null});
 
 @observer
 class App extends Component {

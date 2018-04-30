@@ -2,11 +2,12 @@ const { injectBabelPlugin, getLoader } = require('react-app-rewired')
 const rewireMobX = require('react-app-rewire-mobx');
 const path = require('path');
 
+const cssLoaderMatcher = rule => rule.loader && rule.loader.indexOf(`css-loader`) != -1;
+
 /* config-overrides.js */
 module.exports = {
   webpack (config, env) {
     config = rewireMobX(config, env);
-    config = injectBabelPlugin('transform-decorators-legacy', config);
 
     config.resolve = {
       extensions: ['.js', '.jsx'],
@@ -20,8 +21,10 @@ module.exports = {
     };
 
     // 增加css module的支持
-    let loader = getLoader(config.module.rules, rule => rule.loader && rule.loader.indexOf(`css-loader`) != -1);
-    loader.options = {
+    const cssRules = getLoader(config.module.rules, rule => rule.test && String(rule.test) === String(/\.css$/));
+    cssRules.test = /\.s?css$/;
+    const cssLoader = getLoader(cssRules.use || cssRules.loader, cssLoaderMatcher);
+    cssLoader.options = {
       modules: true,
       importLoaders: 1,
       localIdentName: '[local]___[hash:base64:5]'
@@ -31,7 +34,12 @@ module.exports = {
     oneOf.forEach((item) => {
       if (String(item.test) == String(/\.(js|jsx|mjs)$/)) {
         // 支持es6的class TODO: 关注babel升级 是否有一天就不用这么做了？
-        item.options.presets = ['es2015-node5', 'stage-2', 'react'];
+        if (env == 'production') {
+          item.options.presets = ['es2015', 'stage-0', 'react'];
+        }
+        else {
+          item.options.presets = ['es2015-node5', 'stage-0', 'react'];
+        }
       }
     });
     

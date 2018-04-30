@@ -1,8 +1,9 @@
-import React, { Component }  from 'react';
+import React, { Component, Fragment }  from 'react';
+import Loadable from 'react-loadable';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
-import Repos from 'model/repos';
+const Repos = Loadable({loader: () => import(/* webpackChunkName: "model" */  'model/repos'), loading: () => null});
 
 @observer
 class Repo extends Component {
@@ -16,7 +17,7 @@ class Repo extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <div className="content">
           <h4 style={{color: '#fff'}}>
             <strong style={{marginRight: '0.5rem'}}>{this.repository.name}</strong> 
@@ -41,7 +42,7 @@ class Repo extends Component {
             </div>
           </div>
         </nav>
-      </div>
+      </Fragment>
     );
   }
 };

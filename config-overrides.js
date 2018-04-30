@@ -35,7 +35,19 @@ module.exports = {
       if (String(item.test) == String(/\.(js|jsx|mjs)$/)) {
         // 支持es6的class TODO: 关注babel升级 是否有一天就不用这么做了？
         if (env == 'production') {
-          item.options.presets = ['es2015', 'stage-0', 'react'];
+          item.options.presets = [
+            ["env", {
+              "modules": false,
+              "include": ['transform-es2015-classes'],
+              "targets": {
+                "browsers": "last 2 chrome versions",
+                "node": "current"
+              }
+            }],
+            'stage-0',
+            'react',
+          ];
+          console.log(item.options.plugins);
         }
         else {
           item.options.presets = ['es2015-node5', 'stage-0', 'react'];

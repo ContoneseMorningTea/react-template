@@ -17,7 +17,7 @@ module.exports = {
       'model': path.join(__dirname, './src/model'),
       'store': path.join(__dirname, './src/store')
     });
-    console.log(config.resolve);
+
     // 增加css module的支持
     const cssRules = getLoader(config.module.rules, rule => rule.test && String(rule.test) === String(/\.css$/));
     cssRules.test = /\.s?css$/;
@@ -27,7 +27,8 @@ module.exports = {
       importLoaders: 1,
       localIdentName: '[local]___[hash:base64:5]'
     };
-    
+ 
+    // 增加额外的rule以便引入全局css文件   
     const oneOf = config.module.rules.find(rule => rule.oneOf).oneOf;
     oneOf.unshift({
       test: /\.css$/,

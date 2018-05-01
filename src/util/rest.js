@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 let setData = (object, data) => {
-  if (typeof object.setData == 'function') return object.setData(item);
+  if (typeof object.setData === 'function') return object.setData(data);
   
   for (let [key, value] of Object.entries(data)) {
     if (Reflect.has(object, key)) {

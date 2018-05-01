@@ -1,2 +1,4 @@
 ## TODO LIST
-How to build success
+
+* 支持graphql
+* 支持ssr

@@ -8,18 +8,16 @@ const cssLoaderMatcher = rule => rule.loader && rule.loader.indexOf(`css-loader`
 module.exports = {
   webpack (config, env) {
     config = rewireMobX(config, env);
+    config = injectBabelPlugin('transform-new-target', config);
 
-    config.resolve = {
-      extensions: ['.js', '.jsx'],
-      'alias': {
-        '@': path.join(__dirname, './src/components'),
-        'lib': path.join(__dirname, './lib'),
-        'view': path.join(__dirname, './src/view'),
-        'model': path.join(__dirname, './src/model'),
-        'store': path.join(__dirname, './src/store')
-      }
-    };
-
+    config.resolve.alias = Object.assign(config.resolve.alias, {
+      '@': path.join(__dirname, './src/components'),
+      'util': path.join(__dirname, './src/util'),
+      'view': path.join(__dirname, './src/view'),
+      'model': path.join(__dirname, './src/model'),
+      'store': path.join(__dirname, './src/store')
+    });
+    console.log(config.resolve);
     // 增加css module的支持
     const cssRules = getLoader(config.module.rules, rule => rule.test && String(rule.test) === String(/\.css$/));
     cssRules.test = /\.s?css$/;
@@ -31,30 +29,6 @@ module.exports = {
     };
     
     const oneOf = config.module.rules.find(rule => rule.oneOf).oneOf;
-    oneOf.forEach((item) => {
-      if (String(item.test) == String(/\.(js|jsx|mjs)$/)) {
-        // 支持es6的class TODO: 关注babel升级 是否有一天就不用这么做了？
-        if (env == 'production') {
-          item.options.presets = [
-            ["env", {
-              "modules": false,
-              "include": ['transform-es2015-classes'],
-              "targets": {
-                "browsers": "last 2 chrome versions",
-                "node": "current"
-              }
-            }],
-            'stage-0',
-            'react',
-          ];
-          console.log(item.options.plugins);
-        }
-        else {
-          item.options.presets = ['es2015-node5', 'stage-0', 'react'];
-        }
-      }
-    });
-    
     oneOf.unshift({
       test: /\.css$/,
       resourceQuery: /^\?raw$/,

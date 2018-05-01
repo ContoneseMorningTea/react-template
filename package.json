@@ -19,6 +19,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-plugin-transform-new-target": "^7.0.0-alpha.14",
     "babel-preset-es2015-node5": "^1.2.0",
     "react-app-rewire-mobx": "^1.0.7",
     "react-app-rewired": "^1.5.2",

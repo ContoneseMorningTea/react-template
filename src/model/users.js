@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import Rest from 'lib/rest';
+import Rest from 'util/rest';
 
 export default class Users extends Rest {
   @observable id = null;

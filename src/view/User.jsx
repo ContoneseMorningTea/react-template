@@ -27,7 +27,6 @@ class User extends Component {
     }
     return;
   }
-  
 
   render() {
     return (

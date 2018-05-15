@@ -1,6 +1,5 @@
 import { observable, action } from 'mobx';
 import Repos from 'model/repos';
-import { Promise } from 'es6-promise';
 
 class Repo {
   @observable repos = [];

@@ -16,7 +16,7 @@ class App extends Component {
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
-              Gini React Templdate
+              Gini React Template
             </h1>
             <h2 className="subtitle">
               基理react模板

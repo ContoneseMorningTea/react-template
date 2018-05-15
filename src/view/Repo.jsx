@@ -12,7 +12,6 @@ class Repo extends Component {
   constructor(props) {
     super(props);
     this.repository = new Repos(`huangstomach/${props.match.params.name}`);
-    console.log(this.repository)
   }
 
   render() {

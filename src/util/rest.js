@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from './client';
 
 let setData = (object, data) => {
   if (typeof object.setData === 'function') return object.setData(data);
@@ -17,12 +17,9 @@ export default class Rest {
   constructor(path = null, query = null) {
     if (path === null && query === null) return this;
 
-    this._client = axios.create({
-      baseURL: this._configs ? this._configs.baseURL : 'https://api.github.com',
-      timeout: 5000,
-    });
-    
     this._name = this._configs ? this._configs.source : new.target.name.toLowerCase();
+    this._client = client.get(this._name);
+
     this._client.get(`${this._name}/${path}`, {
       params: query
     })
@@ -39,7 +36,7 @@ export default class Rest {
     Reflect.deleteProperty(params, '_configs');
     Reflect.deleteProperty(params, '_client');
     
-    if (params.id > 0) return await this._client.post(this._name, params);
+    if (params.id == 0) return await this._client.post(this._name, params);
     else return await this._client.put(`${this._name}/${params.id}`, params);
   }
 
@@ -59,11 +56,7 @@ export default class Rest {
       import(`model/${name}`)
       .then(m => {
         model = m.default
-        const client = axios.create({
-          baseURL: this._configs ? this._configs.baseURL : 'https://api.github.com',
-          timeout: 5000,
-        });
-    
+        const client = client.get(name);
         return client.get(path ? path : name);
       })
       .then(r => {
